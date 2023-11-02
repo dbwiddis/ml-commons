@@ -94,6 +94,7 @@ import org.opensearch.ml.common.model.TextEmbeddingModelConfig;
 import org.opensearch.ml.common.spi.MLCommonsExtension;
 import org.opensearch.ml.common.spi.memory.Memory;
 import org.opensearch.ml.common.spi.tools.Tool;
+import org.opensearch.ml.common.spi.tools.Tool.Factory;
 import org.opensearch.ml.common.spi.tools.ToolAnnotation;
 import org.opensearch.ml.common.transport.agent.MLRegisterAgentAction;
 import org.opensearch.ml.common.transport.connector.MLConnectorDeleteAction;
@@ -817,8 +818,8 @@ public class MachineLearningPlugin extends Plugin implements ActionPlugin, Searc
                 }
             }
 
-            List<Tool.Factory> toolFactories = extension.getToolFactories();
-            for (Tool.Factory toolFactory : toolFactories) {
+            List<Factory<? extends Tool>> toolFactories = extension.getToolFactories();
+            for (Tool.Factory<? extends Tool> toolFactory : toolFactories) {
                 ToolAnnotation toolAnnotation = toolFactory.getClass().getDeclaringClass().getAnnotation(ToolAnnotation.class);
                 if (toolAnnotation == null) {
                     throw new IllegalArgumentException(
